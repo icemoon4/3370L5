@@ -152,10 +152,10 @@ public class LAB5TestCase{
 	@Test
 	public void testHeightSmall() {
 		RBTree T = _buildSmolTree();
-		_testHeight(T, 1);
-		
-		T = _buildSmallTree();
-		_testHeight(T, 2);
+        _testHeight(T, 2);
+        
+        T = _buildSmallTree();
+        _testHeight(T, 4);
 	}
 	
 	@Test
