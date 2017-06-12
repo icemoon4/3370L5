@@ -9,6 +9,19 @@ package edu.wit.cs.comp3370;
  * 
  */
 
+/**
+ * RBTree builds a red black binary search tree. All methods contained in this class perform the same
+ * operations as BST.java, aside from insert. insert takes a DiskLocation, finds its parent using
+ * findParent (from BST.java) and sets whether it will be a left or right child of its parent, then 
+ * colors the node red and calls fixInsert. fixInsert takes the DiskLocation, and uses the color values
+ * of parent and grandparent nodes to decide if the tree is unbalanced, which it will be if the current
+ * tree doesn't match all of the required properties of a RB tree. Depending on which side is unabalanced,
+ * a rotateLeft or rotateRight will be performed to shift the tree either left or right and make it
+ * balanced. Colors of nodes are updated to match current properties of the tree.
+ * 
+ * @author palmerr
+ *
+ */
 public class RBTree extends LocationHolder {
 	
 	/* sets a disk location's color to red.
@@ -135,9 +148,9 @@ public class RBTree extends LocationHolder {
 	}
 	
 	public void fixInsert(DiskLocation d){
-		while(d.parent.color == RB.RED){
+		while(d.parent.color == RB.RED){ //while parent is red
 			if(d.parent.parent.left == d.parent){ //if d's parent is a left child
-				DiskLocation y = d.parent.parent.right;
+				DiskLocation y = d.parent.parent.right; //y = d's grandparent's right child
 				if(y.color == RB.RED){
 					d.parent.color = RB.BLACK;
 					y.color = RB.BLACK;
@@ -151,7 +164,7 @@ public class RBTree extends LocationHolder {
 					}
 					d.parent.color = RB.BLACK;
 					setRed(d.parent.parent);
-					rotateRight(d.parent.parent);
+					rotateRight(d.parent.parent); //balance tree towards the right
 				}
 			}
 			else if(d.parent.parent.right == d.parent){ //if d's parent is right child
@@ -169,11 +182,11 @@ public class RBTree extends LocationHolder {
 					}
 					d.parent.color = RB.BLACK;
 					setRed(d.parent.parent);
-					rotateLeft(d.parent.parent);
+					rotateLeft(d.parent.parent); //balance tree towards the left
 				}
 			}
 		}
-		root.color = RB.BLACK;
+		root.color = RB.BLACK; //root must always be black
 	}
 	
 	public void rotateLeft(DiskLocation d){
@@ -182,7 +195,8 @@ public class RBTree extends LocationHolder {
 		if(!y.left.equals(nil)){
 			y.left.parent = d; 
 		}
-		y.parent = d.parent;
+		y.parent = d.parent; //sets the correct child to become the parent
+		//set properties of new parent/child relationships
 		if(d.parent.equals(nil))
 			root = y;
 		else if(d == d.parent.left)
@@ -199,7 +213,8 @@ public class RBTree extends LocationHolder {
 		if(!y.right.equals(nil)){
 			y.right.parent = d; 
 		}
-		y.parent = d.parent;
+		y.parent = d.parent; //sets the correct child to become the parent
+		//set properties of new parent/child relationships
 		if(d.parent.equals(nil))
 			root = y;
 		else if(d == d.parent.right)
